@@ -16,6 +16,8 @@ library(sf)
 
 library(gstat)
 
+library(carrier)
+
 library(spatstat)
 
 library(spatstat.geom)
@@ -72,7 +74,7 @@ ggplot() +
 
 ggsave(filename = "bioma.png", height = 10, width = 12)
 
-# Setar temas ----
+# Setar o tema ----
 
 theme_set(theme_bw() +
             theme(axis.text = element_text(size = 15, color = "black"),
@@ -324,8 +326,11 @@ ggplot() +
 res <- bio_5_amaraji |>
   terra::res()
 
+res
+
 grid_amaraji <- amaraji |>
-  sf::st_make_grid(cellsize = res[1])
+  sf::st_make_grid(cellsize = res[1]) |>
+  sf::st_intersection(amaraji)
 
 ggplot() +
   geom_sf(data = amaraji, color = "black") +
@@ -366,7 +371,6 @@ ls(pattern = "idw_") |>
 rasterizar_interpolação <- function(interpolado, idp){
 
   raster_inter <- interpolado |>
-    sf::st_intersection(amaraji_sf) |>
     terra::vect() |>
     terra::rasterize(y = bio_5_amaraji,
                      field = "var1.pred")
@@ -479,7 +483,6 @@ coords <- pontos |>
   sf::st_coordinates()
 
 coords
-
 
 #### Objeto ppp ----
 
