@@ -12,6 +12,8 @@ library(geosphere)
 
 library(sf)
 
+library(ggspatial)
+
 library(adehabitatHR)
 
 # Dados ----
@@ -83,7 +85,7 @@ tetraploidea %<>%
                 Latitude = Latitude |> parzer::parse_lat(),
                 `Distância (cm)` = `Distância (cm)`/100)
 
-tetraploidea
+tetraploidea |> as.data.frame()
 
 tetraploidea |> dplyr::glimpse()
 
@@ -93,63 +95,48 @@ tetraploidea |> dplyr::glimpse()
 
 ### Dataframe de trajeto ----
 
-traj_faber <- faber |>
-  dplyr::select(2, 3, 5, 7)
+traj_faber <- faber
 
 traj_faber
 
-### Vetores de angulos e distâncias ----
-
-angulos_faber <- traj_faber$`Ângulos de virada`
-
-angulos_faber
-
-distancias_faber <- traj_faber$`Distância (cm)`
-
-distancias_faber
-
-### Dataframe com apenas a primeira coordenada ----
-
-trajeto_faber <- traj_faber |>
-  dplyr::select(1:2) |>
-  dplyr::slice_head()
-
-trajeto_faber
-
 ### Calculando as novas coordenadas ----
 
-novas_coords_faber <- function(x){
+convertendo_coords_faber <- function(x){
 
-  destino <- geosphere::destPoint(c(trajeto_faber$Longitude[x],
-                                    trajeto_faber$Latitude[x]),
-                                  angulos_faber[x],
-                                  distancias_faber[x])
+  if(traj_faber$Longitude[x] |> is.na() | traj_faber$Latitude[x] |> is.na()){
 
-  trajeto_faber <<- dplyr::bind_rows(trajeto_faber,
-                            tibble::tibble(Longitude = destino[1],
-                                           Latitude = destino[2]))
+    dest <- geosphere::destPoint(c(traj_faber$Longitude[x-1],
+                                   traj_faber$Latitude[x-1]),
+                                 traj_faber$`Ângulos de virada`[x-1],
+                                 traj_faber$`Distância (cm)`[x-1])
+
+    traj_faber$Longitude[x] <<- dest[1]
+
+    traj_faber$Latitude[x] <<- dest[2]
+
+  }
 
 }
 
-purrr::walk(1:length(angulos_faber), novas_coords_faber)
+purrr::walk(1:nrow(traj_faber), convertendo_coords_faber)
 
-trajeto_faber |> as.data.frame()
+traj_faber |> as.data.frame()
 
 ### Criando o shapefile ----
 
 #### Trajeto ----
 
-trajeto_faber_sf <- trajeto_faber |>
+traj_faber_sf <- traj_faber |>
   sf::st_as_sf(coords = c("Longitude", "Latitude"),
                crs = 4674) |>
   dplyr::summarise(do_union = FALSE) |>
   sf::st_cast("LINESTRING")
 
-trajeto_faber_sf
+traj_faber_sf
 
 #### Pontos ----
 
-pontos_faber_sf <- trajeto_faber |>
+pontos_faber_sf <- traj_faber |>
   sf::st_as_sf(coords = c("Longitude", "Latitude"),
                crs = 4674)
 
@@ -158,8 +145,10 @@ pontos_faber_sf
 #### Mapa ----
 
 ggplot() +
-  geom_sf(data = trajeto_faber_sf, linewidth = 1) +
-  geom_sf(data = pontos_faber_sf, color = "red") +
+  geom_sf(data = traj_faber_sf, linewidth = 1) +
+  geom_sf_text(data = pontos_faber_sf,
+               aes(label = Pontos),
+               color = "red") +
   ggspatial::annotation_scale(location = "tl",
                               text_cex = 1.5,
                               text_face = "bold",
@@ -171,63 +160,51 @@ ggplot() +
 
 ### Dataframe de trajeto ----
 
-traj_crucifer <- crucifer |>
-  dplyr::select(2, 3, 5, 7)
+traj_crucifer <- crucifer
 
-traj_crucifer
-
-### Vetores de angulos e distâncias ----
-
-angulos_crucifer <- traj_crucifer$`Ângulos de virada`
-
-angulos_crucifer
-
-distancias_crucifer <- traj_crucifer$`Distância (cm)`
-
-distancias_crucifer
-
-### Dataframe com apenas a primeira coordenada ----
-
-trajeto_crucifer <- traj_crucifer |>
-  dplyr::select(1:2) |>
-  dplyr::slice_head()
-
-trajeto_crucifer
+traj_crucifer |> as.data.frame()
 
 ### Calculando as novas coordenadas ----
 
-novas_coords_crucifer <- function(x){
+convertendo_coords_crucifer <- function(x){
 
-  destino <- geosphere::destPoint(c(trajeto_crucifer$Longitude[x],
-                                    trajeto_crucifer$Latitude[x]),
-                                  angulos_crucifer[x],
-                                  distancias_crucifer[x])
+  if(traj_crucifer$Longitude[x] |> is.na() | traj_crucifer$Latitude[x] |> is.na()){
 
-  trajeto_crucifer <<- dplyr::bind_rows(trajeto_crucifer,
-                                     tibble::tibble(Longitude = destino[1],
-                                                    Latitude = destino[2]))
+    dest <- geosphere::destPoint(c(traj_crucifer$Longitude[x-1],
+                                   traj_crucifer$Latitude[x-1]),
+                                 traj_crucifer$`Ângulos de virada`[x-1],
+                                 traj_crucifer$`Distância (cm)`[x-1])
+
+    traj_crucifer$Longitude[x] <<- dest[1]
+
+    traj_crucifer$Latitude[x] <<- dest[2]
+
+  }
 
 }
 
-purrr::walk(1:length(angulos_crucifer), novas_coords_crucifer)
+purrr::walk(1:nrow(traj_crucifer), convertendo_coords_crucifer)
 
-trajeto_crucifer |> as.data.frame()
+traj_crucifer |> as.data.frame()
 
 ### Criando o shapefile ----
 
 #### Trajeto ----
 
-trajeto_crucifer_sf <- trajeto_crucifer |>
+traj_crucifer_sf <- traj_crucifer |>
   sf::st_as_sf(coords = c("Longitude", "Latitude"),
                crs = 4674) |>
+  dplyr::mutate(ID = crucifer$ID) |>
+  dplyr::group_by(ID) |>
   dplyr::summarise(do_union = FALSE) |>
-  sf::st_cast("LINESTRING")
+  sf::st_cast("LINESTRING") |>
+  dplyr::ungroup()
 
-trajeto_crucifer_sf
+traj_crucifer_sf
 
 #### Pontos ----
 
-pontos_crucifer_sf <- trajeto_crucifer |>
+pontos_crucifer_sf <- traj_crucifer |>
   sf::st_as_sf(coords = c("Longitude", "Latitude"),
                crs = 4674)
 
@@ -236,8 +213,11 @@ pontos_crucifer_sf
 #### Mapa ----
 
 ggplot() +
-  geom_sf(data = trajeto_crucifer_sf, linewidth = 1) +
-  geom_sf(data = pontos_crucifer_sf, color = "red") +
+  geom_sf(data = traj_crucifer_sf,
+          aes(color = ID),
+          linewidth = 1) +
+  geom_sf_text(data = pontos_crucifer_sf,
+          aes(color = ID, label = Pontos)) +
   ggspatial::annotation_scale(location = "tl",
                               text_cex = 1.5,
                               text_face = "bold",
@@ -249,63 +229,48 @@ ggplot() +
 
 ### Dataframe de trajeto ----
 
-traj_tetraploidea <- tetraploidea |>
-  dplyr::select(2, 3, 5, 7)
+traj_tetraploidea <- tetraploidea
 
-traj_tetraploidea
-
-### Vetores de angulos e distâncias ----
-
-angulos_tetraploidea <- traj_tetraploidea$`Ângulos de virada`
-
-angulos_tetraploidea
-
-distancias_tetraploidea <- traj_tetraploidea$`Distância (cm)`
-
-distancias_tetraploidea
-
-### Dataframe com apenas a primeira coordenada ----
-
-trajeto_tetraploidea <- traj_tetraploidea |>
-  dplyr::select(1:2) |>
-  dplyr::slice_head()
-
-trajeto_tetraploidea
+traj_tetraploidea |> as.data.frame()
 
 ### Calculando as novas coordenadas ----
 
-novas_coords_tetraploidea <- function(x){
+convertendo_coords_tetraploidea <- function(x){
 
-  destino <- geosphere::destPoint(c(trajeto_tetraploidea$Longitude[x],
-                                    trajeto_tetraploidea$Latitude[x]),
-                                  angulos_tetraploidear[x],
-                                  distancias_tetraploidea[x])
+  if(traj_tetraploidea$Longitude[x] |> is.na() | traj_tetraploidea$Latitude[x] |> is.na()){
 
-  trajeto_tetraploidea <<- dplyr::bind_rows(trajeto_tetraploidea,
-                                        tibble::tibble(Longitude = destino[1],
-                                                       Latitude = destino[2]))
+    dest <- geosphere::destPoint(c(traj_tetraploidea$Longitude[x-1],
+                                   traj_tetraploidea$Latitude[x-1]),
+                                 traj_tetraploidea$`Ângulos de virada`[x-1],
+                                 traj_tetraploidea$`Distância (cm)`[x-1])
+
+    traj_tetraploidea$Longitude[x] <<- dest[1]
+
+    traj_tetraploidea$Latitude[x] <<- dest[2]
+
+  }
 
 }
 
-purrr::walk(1:length(angulos_tetraploidea), novas_coords_tetraploidea)
+purrr::walk(1:nrow(traj_tetraploidea), convertendo_coords_tetraploidea)
 
-trajeto_tetraploidea |> as.data.frame()
+traj_tetraploidea |> as.data.frame()
 
 ### Criando o shapefile ----
 
 #### Trajeto ----
 
-trajeto_tetraploidea_sf <- trajeto_tetraploidea |>
+traj_tetraploidea_sf <- traj_tetraploidea |>
   sf::st_as_sf(coords = c("Longitude", "Latitude"),
                crs = 4674) |>
   dplyr::summarise(do_union = FALSE) |>
   sf::st_cast("LINESTRING")
 
-trajeto_tetraploidea_sf
+traj_tetraploidea_sf
 
 #### Pontos ----
 
-pontos_tetraploidea_sf <- trajeto_tetraploidea |>
+pontos_tetraploidea_sf <- traj_tetraploidea |>
   sf::st_as_sf(coords = c("Longitude", "Latitude"),
                crs = 4674)
 
@@ -314,7 +279,7 @@ pontos_tetraploidea_sf
 #### Mapa ----
 
 ggplot() +
-  geom_sf(data = trajeto_tetraploidea_sf, linewidth = 1) +
+  geom_sf(data = traj_tetraploidea_sf, linewidth = 1) +
   geom_sf(data = pontos_tetraploidea_sf, color = "red") +
   ggspatial::annotation_scale(location = "tl",
                               text_cex = 1.5,
@@ -338,8 +303,6 @@ ggplot() +
   geom_sf(data = pontos_sf_utm_faber) +
   theme_bw() +
   theme(axis.text = element_text(color = "black"))
-
-### 100% ----
 
 ### 95% ----
 
