@@ -67,7 +67,7 @@ novas_coords <- function(x){
 
 }
 
-purrr::walk(1:length(distancias), novas_coords)
+purrr::map(1:length(distancias), novas_coords)
 
 trajeto
 
