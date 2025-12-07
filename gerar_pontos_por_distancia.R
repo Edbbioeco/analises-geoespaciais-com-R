@@ -53,7 +53,26 @@ pontos_shp
 
 ## Visualizando ----
 
+pontos_shp
+
 ggplot() +
   geom_sf(data = rec, color = "black") +
   geom_sf(data = pontos_shp, color = "black")
-  
+
+# Pontos regulares equidistantes ----
+
+## Gerando os pontos ----
+
+pontos_reg <- rec |> 
+  sf::st_make_grid(what = "centers",
+                   cellsize = 2000) |> 
+  sf::st_as_sf() |> 
+  sf::st_intersection(rec)
+
+## Visualizando ----
+
+pontos_reg
+
+ggplot() +
+  geom_sf(data = rec, color = "black") +
+  geom_sf(data = pontos_reg, color = "black")
