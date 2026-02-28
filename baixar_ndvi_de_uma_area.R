@@ -84,5 +84,7 @@ saltinho_ndvi <- (saltinho_raster$B8 - saltinho_raster$B4) / (saltinho_raster$B8
 
 ggplot() +
   tidyterra::geom_spatraster(data = saltinho_ndvi) +
-  scale_fill_viridis_c(na.value = "transparent",
-                       limits = c(-1, 1))
+  tidyterra::scale_fill_whitebox_c(palette = "atlas",
+                                   na.value = "transparent",
+                                   limits = c(-1, 1),
+                                   direction = -1)
