@@ -52,7 +52,13 @@ terra::crs(mapbiomas) <- "EPSG:4674"
 ## Recortando ----
 
 mapbiomas_saltinho <- mapbiomas |>
-  terra::mask(saltinho) +
+  terra::mask(saltinho) |>
   terra::crop(saltinho)
 
+## Visualizando ----
 
+mapbiomas_saltinho
+
+ggplot() +
+  tidyterra::geom_spatraster(data = mapbiomas_saltinho) +
+  scale_fill_viridis_c(na.value = "transparent")
