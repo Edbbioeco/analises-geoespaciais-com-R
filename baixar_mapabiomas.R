@@ -33,4 +33,13 @@ download.file("https://storage.googleapis.com/mapbiomas-public/initiatives/brasi
               "mapbiomas_2024_local.tif",
               mode = "wb")
 
-map_biomas <- terra::rast("mapbiomas_2024_local.tif")
+mapbiomas <- terra::rast("mapbiomas_2024_local.tif")
+
+### Visualizando ----
+
+mapbiomas
+
+ggplot() +
+  tidyterra::geom_spatraster(data = mapbiomas) +
+  scale_fill_viridis_c()
+
