@@ -29,8 +29,10 @@ ggplot() +
 
 ## Map biomas ----
 
-### Iniciando o rgee ----
+### Importando ----
 
-rgee::ee_Initialize(project = "ee-edsonbbiologia",
-                    user = "edsonbbiologia@gmail.com",
-                    drive = TRUE)
+download.file("https://storage.googleapis.com/mapbiomas-public/initiatives/brasil/collection_10/lulc/coverage/brazil_coverage_2024.tif",
+              "mapbiomas_2024_local.tif",
+              mode = "wb")
+
+map_biomas <- terra::rast("mapbiomas_2024_local.tif")
