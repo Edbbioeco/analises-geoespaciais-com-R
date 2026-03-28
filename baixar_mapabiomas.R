@@ -48,3 +48,11 @@ ggplot() +
 ## Igualando os CRS ----
 
 terra::crs(mapbiomas) <- "EPSG:4674"
+
+## Recortando ----
+
+mapbiomas_saltinho <- mapbiomas |>
+  terra::mask(saltinho) +
+  terra::crop(saltinho)
+
+
