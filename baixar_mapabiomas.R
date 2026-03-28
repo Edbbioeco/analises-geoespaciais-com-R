@@ -31,6 +31,8 @@ ggplot() +
 
 ### Iniciando o rgee ----
 
-rgee::ee_Initialize()
+rgee::ee_Initialize(project = "ee-edsonbbiologia",
+                    user = "edsonbbiologia@gmail.com",
+                    drive = TRUE)
 
 ### Importando ----
