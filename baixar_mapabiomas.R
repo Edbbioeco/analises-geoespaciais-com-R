@@ -6,7 +6,7 @@ library(sf)
 
 library(tidyverse)
 
-library(datazoom.amazonia)
+library(rgee)
 
 library(terra)
 
@@ -26,3 +26,16 @@ saltinho <- geobr::read_conservation_units() |>
 
 ggplot() +
   geom_sf(data = saltinho, color = "black")
+
+## Map biomas ----
+
+### Importando ----
+
+mapbiomas <- datazoom.amazonia::load_mapbiomas(dataset = "mapbiomas_cover")
+
+### Visualizando ----
+
+mapbiomas
+
+ggplot() +
+  tidyterra::geom_spatraster()
