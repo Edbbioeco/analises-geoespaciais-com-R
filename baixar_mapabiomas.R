@@ -2,6 +2,8 @@
 
 library(geobr)
 
+library(sf)
+
 library(tidyverse)
 
 library(datazoom.amazonia)
