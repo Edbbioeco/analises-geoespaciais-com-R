@@ -31,6 +31,10 @@ ggplot() +
 
 ### Iniciando o rgee ----
 
+options(
+  rgee.asset_home = "projects/earthengine-legacy/assets/users/ee-edsonbbiologia"
+)
+
 rgee::ee_Initialize(project = "ee-edsonbbiologia",
                     user = "edsonbbiologia@gmail.com",
                     drive = TRUE)
