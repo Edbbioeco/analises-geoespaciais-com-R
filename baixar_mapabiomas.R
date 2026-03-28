@@ -34,7 +34,3 @@ ggplot() +
 rgee::ee_Initialize(project = "ee-edsonbbiologia",
                     user = "edsonbbiologia@gmail.com",
                     drive = TRUE)
-
-### Importando ----
-
-mapbiomas <- ee$Image("projects/mapbiomas-workspace/public/collection9/mapbiomas_collection90_integration_v1")
