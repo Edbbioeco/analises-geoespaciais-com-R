@@ -43,3 +43,8 @@ ggplot() +
   tidyterra::geom_spatraster(data = mapbiomas) +
   scale_fill_viridis_c()
 
+# Recorte para Saltinho ----
+
+## Igualando os CRS ----
+
+terra::crs(mapbiomas) <- "EPSG:4674"
