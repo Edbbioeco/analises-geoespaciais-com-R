@@ -29,13 +29,8 @@ ggplot() +
 
 ## Map biomas ----
 
+### Iniciando o rgee ----
+
+rgee::ee_Initialize()
+
 ### Importando ----
-
-mapbiomas <- datazoom.amazonia::load_mapbiomas(dataset = "mapbiomas_cover")
-
-### Visualizando ----
-
-mapbiomas
-
-ggplot() +
-  tidyterra::geom_spatraster()
