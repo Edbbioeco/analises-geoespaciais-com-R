@@ -270,4 +270,8 @@ filtrar_dist <- function(coords, coords_var, envs, envs_var, distancias){
 
   purrr::map(distancias, correlacoes)
 
+  cor_df <- ls(pattern = "^df_cor_") |>
+    mget(envir = globalenv()) |>
+    dplyr::bind_rows()
+
 }
