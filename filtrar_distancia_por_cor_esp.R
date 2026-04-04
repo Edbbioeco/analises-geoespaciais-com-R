@@ -1,5 +1,7 @@
 # Pacotes ----
 
+library(geobr)
+
 library(rgbif)
 
 library(tidyverse)
