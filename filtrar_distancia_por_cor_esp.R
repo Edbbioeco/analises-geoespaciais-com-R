@@ -2,17 +2,17 @@
 
 library(geobr)
 
+library(tidyverse)
+
 library(rgbif)
 
-library(tidyverse)
+library(sf)
 
 library(geodata)
 
 library(terra)
 
 library(tidyterra)
-
-library(sf)
 
 library(fields)
 
