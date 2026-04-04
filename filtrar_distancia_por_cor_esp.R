@@ -142,3 +142,12 @@ valores <- bioclim_recortado |>
 ## Visualizar ----
 
 valores
+
+## Identificando os pontos com valores faltantes ----
+
+valores_faltantes <- valores |>
+  dplyr::filter(dplyr::everything() |> if_any(is.na)) |>
+  dplyr::pull(ID)
+
+valores_faltantes
+
