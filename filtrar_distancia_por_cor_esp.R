@@ -179,6 +179,18 @@ valores_trat
 
 # Função ----
 
+## Definir as variáveis para testar ao longo da função ----
+
+coords <- registros_trat
+
+coords_var <- 3:4
+
+envs <- valores_trat
+
+envs_var <- 2:19
+
+## Criar função ----
+
 filtrar_dist <- function(coords, coords_var, envs, envs_var){
 
   coords_reg <- coords |>
