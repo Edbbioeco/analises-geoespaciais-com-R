@@ -22,6 +22,17 @@ library(reshape2)
 
 # Dados ----
 
+## Shapefile do Brasil ----
+
+### Baixar ----
+
+br <- geobr::read_country(year = 2019)
+
+### Visualizar ----
+
+ggplot() +
+  geom_sf(data = br, color = "black")
+
 ## Registros de ocorrência ----
 
 ### Baixar ----
