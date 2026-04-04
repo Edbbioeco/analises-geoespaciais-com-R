@@ -199,7 +199,7 @@ filtrar_dist <- function(coords, coords_var, envs, envs_var){
     fields::rdist.earth(miles = FALSE) |>
     reshape2::melt()
 
-  dist_ambs <- function(n_vars){
+  dist_ambs <- function(envs_var){
 
     nome_var <- envs |>
       dplyr::select(n_vars) |>
@@ -216,9 +216,6 @@ filtrar_dist <- function(coords, coords_var, envs, envs_var){
 
   }
 
-  n_vars <- 1:ncol(envs |>
-                     dplyr::select(env_vars))
-
-  purrr::map(n_vars, dist_ambs)
+  purrr::map(envs_var, dist_ambs)
 
 }
