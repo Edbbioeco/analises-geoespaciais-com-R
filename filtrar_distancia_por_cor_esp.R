@@ -33,6 +33,21 @@ br <- geobr::read_country(year = 2019)
 ggplot() +
   geom_sf(data = br, color = "black")
 
+## Shapefile da Mata Atlântica ----
+
+### Baixar ----
+
+ma <- geobr::read_biomes(year = 2019) |>
+  dplyr::filter(name_biome == "Mata Atlântica")
+
+### Visualizar ----
+
+ma
+
+ggplot() +
+  geom_sf(data = br, color = "black") +
+  geom_sf(data = ma, color = "darkgreen", fill = "forestgreen")
+
 ## Registros de ocorrência ----
 
 ### Baixar ----
