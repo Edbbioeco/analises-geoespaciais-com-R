@@ -252,7 +252,9 @@ filtrar_dist <- function(coords, coords_var, envs, envs_var, distancias){
 
       df_cor <- tibble::tibble(Distância = distancias,
                                Variável = envs_var,
-                               Correlação = t_cor |> round(2) |> abs())
+                               Correlação = t_cor |> round(2) |> abs()) |>
+        dplyr::mutate(Correlacionado = dplyr::case_when(Correlação >= 0.7 ~ "Sim",
+                                                        .default = "Não"))
 
       assign(paste0("df_", nome_var, "_", distancias),
              df_cor,
