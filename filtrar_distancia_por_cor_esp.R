@@ -176,3 +176,37 @@ valores_trat <- valores |>
   dplyr::slice(-valores_faltantes)
 
 valores_trat
+
+# Função ----
+
+filtrar_dist <- function(coords, coords_var, envs, envs_var){
+
+  coords_reg <- coords |>
+    dplyr::select(coords_var) |>
+    as.data.frame() |>
+    fields::rdist.earth(miles = FALSE) |>
+    reshape2::melt()
+
+  dist_ambs <- function(envs_vars){
+
+    nome_var <- envs |>
+      dplyr::select(envs_vars) |>
+      name()
+
+    env_dist <- valores_trat |>
+      dplyr::select(2) |>
+      vegan::vegdist(method = "euclidean") |>
+      as.matrix() |>
+      reshape2::melt()
+
+    assign(paste0("env_dist_", nome_var),
+           env_dist)
+
+  }
+
+  n_vars <- 1:ncol(envs |>
+                     dplyr::select(env_vars))
+
+  purrr::map(n_vars, dist_ambs)
+
+}
