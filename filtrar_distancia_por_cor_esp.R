@@ -151,3 +151,14 @@ valores_faltantes <- valores |>
 
 valores_faltantes
 
+## Filtrar do shapefile de registros baseado nos valores faltantes ----
+
+registros_sf_trat <- registros_sf |>
+  dplyr::slice(-valores_faltantes)
+
+registros_sf_trat
+
+ggplot() +
+  geom_sf(data = br, color = "black") +
+  geom_sf(data = ma, color = "darkgreen", fill = "forestgreen") +
+  geom_sf(data = registros_sf_trat, color = "red", size = 2)
