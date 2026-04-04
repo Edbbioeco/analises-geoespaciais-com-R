@@ -250,8 +250,12 @@ filtrar_dist <- function(coords, coords_var, envs, envs_var, distancias){
 
       t_cor <- test_cor$estimate
 
-      assign(paste0("t_cor_", nome_var),
-             t_cor,
+      df_cor <- tibble::tibble(Distância = distancias,
+                               Variável = envs_var,
+                               Correlação = t_cor |> round(2) |> abs())
+
+      assign(paste0("df_", nome_var, "_", distancias),
+             df_cor,
              envir = globalenv())
 
     }
