@@ -110,6 +110,11 @@ ggplot() +
 
 # Recorte das variáveis bioclimáticas ----
 
+## Alterar o CRS do raster para o shapefile da Mata Atlântica ----
+
+bioclim <- bioclim |>
+  terra::project(ma)
+
 ## Recortar ----
 
 bioclim_recortado <- bioclim |>
