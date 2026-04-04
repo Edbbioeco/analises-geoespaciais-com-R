@@ -204,7 +204,7 @@ filtrar_dist <- function(coords, coords_var, envs, envs_var){
   dist_ambs <- function(envs_var){
 
     nome_var <- envs |>
-      dplyr::select(n_vars) |>
+      dplyr::select(envs_var) |>
       names()
 
     env_dist <- valores_trat |>
@@ -212,7 +212,8 @@ filtrar_dist <- function(coords, coords_var, envs, envs_var){
       vegan::vegdist(method = "euclidean") |>
       as.matrix() |>
       reshape2::melt() |>
-      dplyr::mutate(combinacao = paste0(Var1, "-", Var2))
+      dplyr::mutate(combinacao = paste0(Var1, "-", Var2),
+                    var = nome_var)
 
     assign(paste0("env_dist_", nome_var),
            env_dist)
