@@ -258,7 +258,7 @@ filtrar_dist <- function(coords, coords_var, envs, envs_var, distancias){
         dplyr::mutate(Correlacionado = dplyr::case_when(Correlação >= 0.7 ~ "Sim",
                                                         .default = "Não"))
 
-      assign(paste0("df_", nome_var, "_", distancias),
+      assign(paste0("df_cor_", nome_var, "_", distancias),
              df_cor,
              envir = globalenv())
 
