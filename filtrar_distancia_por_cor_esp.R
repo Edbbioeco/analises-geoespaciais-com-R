@@ -162,3 +162,10 @@ ggplot() +
   geom_sf(data = br, color = "black") +
   geom_sf(data = ma, color = "darkgreen", fill = "forestgreen") +
   geom_sf(data = registros_sf_trat, color = "red", size = 2)
+
+## Filtrar os registros de ocorrencia baseado nos valores faltantes ----
+
+registros_trat <- registros |>
+  dplyr::slice(-valores_faltantes)
+
+registros_trat
