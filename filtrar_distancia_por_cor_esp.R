@@ -129,5 +129,5 @@ ggplot() +
   tidyterra::geom_spatraster(data = bioclim_recortado) +
   geom_sf(data = ma, color = "darkred", fill = "transparent") +
   facet_wrap(~lyr) +
-  scale_fill_viridis_c() +
+  scale_fill_viridis_c(na.value = "transparent") +
   theme_minimal()
