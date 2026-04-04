@@ -89,3 +89,21 @@ ggplot() +
   facet_wrap(~lyr) +
   scale_fill_viridis_c() +
   theme_minimal()
+
+# Shapefile dos registros ----
+
+## Criar ----
+
+registros_sf <- registros |>
+  sf::st_as_sf(coords = c("decimalLongitude", "decimalLatitude"),
+               crs = ma |> sf::st_crs()) |>
+  sf::st_intersection(ma)
+
+## Visualizar ----
+
+registros_sf
+
+ggplot() +
+  geom_sf(data = br, color = "black") +
+  geom_sf(data = ma, color = "darkgreen", fill = "forestgreen") +
+  geom_sf(data = registros_sf, color = "red", size = 2)
