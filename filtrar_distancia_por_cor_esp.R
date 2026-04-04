@@ -231,4 +231,35 @@ filtrar_dist <- function(coords, coords_var, envs, envs_var, distancias){
 
   df
 
+  correlacoes <- function(distancias){
+
+    cor_vars <- function(envs_var){
+
+      nome_var <- envs |>
+        dplyr::select(envs_var) |>
+        names()
+
+      test_cor <- cor.test(df |>
+                             dplyr::filter(distancia <= 1 &
+                                             var == nome_var[1]) |>
+                             dplyr::pull(distancia),
+                           df |>
+                             dplyr::filter(distancia <= 1 &
+                                             var == nome_var[1]) |>
+                             dplyr::pull(value))
+
+      t_cor <- test_cor$estimate
+
+      assign(paste0("t_cor_", nome_var),
+             t_cor,
+             envir = globalenv())
+
+    }
+
+    purrr::map(envs_var, cor_vars)
+
+  }
+
+  purrr::map(distancias, correlacoes)
+
 }
