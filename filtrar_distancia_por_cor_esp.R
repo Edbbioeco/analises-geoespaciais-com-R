@@ -199,14 +199,14 @@ filtrar_dist <- function(coords, coords_var, envs, envs_var){
     fields::rdist.earth(miles = FALSE) |>
     reshape2::melt()
 
-  dist_ambs <- function(envs_vars){
+  dist_ambs <- function(n_vars){
 
     nome_var <- envs |>
-      dplyr::select(envs_vars) |>
+      dplyr::select(n_vars) |>
       name()
 
     env_dist <- valores_trat |>
-      dplyr::select(2) |>
+      dplyr::select(n_vars) |>
       vegan::vegdist(method = "euclidean") |>
       as.matrix() |>
       reshape2::melt()
