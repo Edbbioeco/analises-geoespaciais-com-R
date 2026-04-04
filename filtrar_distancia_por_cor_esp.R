@@ -131,3 +131,14 @@ ggplot() +
   facet_wrap(~lyr) +
   scale_fill_viridis_c(na.value = "transparent") +
   theme_minimal()
+
+# Extrair os valores das variáveis bioclimáticas ----
+
+## Extrair ----
+
+valores <- bioclim_recortado |>
+  terra::extract(registros_sf)
+
+## Visualizar ----
+
+valores
