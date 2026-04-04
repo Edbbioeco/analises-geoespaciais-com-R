@@ -216,10 +216,19 @@ filtrar_dist <- function(coords, coords_var, envs, envs_var){
                     var = nome_var)
 
     assign(paste0("env_dist_", nome_var),
-           env_dist)
+           env_dist,
+           envir = globalenv())
 
   }
 
   purrr::map(envs_var, dist_ambs)
+
+  df <- coords_reg |>
+    dplyr::left_join(ls(pattern = "^env_dist_") |>
+                       mget(envir = globalenv()) |>
+                       dplyr::bind_rows(),
+                     by = "combinacao")
+
+  df
 
 }
