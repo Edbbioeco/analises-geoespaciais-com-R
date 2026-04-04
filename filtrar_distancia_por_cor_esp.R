@@ -189,6 +189,8 @@ envs <- valores_trat
 
 envs_var <- 2:19
 
+distancias <- 1:20
+
 ## Criar função ----
 
 filtrar_dist <- function(coords, coords_var, envs, envs_var, distancias){
