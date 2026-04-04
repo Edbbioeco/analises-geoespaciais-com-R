@@ -198,7 +198,8 @@ filtrar_dist <- function(coords, coords_var, envs, envs_var){
     as.data.frame() |>
     fields::rdist.earth(miles = FALSE) |>
     reshape2::melt() |>
-    dplyr::mutate(combinacao = paste0(Var1, "-", Var2))
+    dplyr::mutate(combinacao = paste0(Var1, "-", Var2)) |>
+    dplyr::rename("distancia" = value)
 
   dist_ambs <- function(envs_var){
 
