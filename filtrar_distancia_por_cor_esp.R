@@ -69,3 +69,22 @@ ggplot() +
   geom_sf(data = ma, color = "darkgreen", fill = "forestgreen") +
   geom_point(data = registros,
              aes(x = decimalLongitude, y = decimalLatitude), color = "red", size = 2)
+
+## Variáveis bioclimáticas ----
+
+### Baixar ----
+
+bioclim <- geodata::worldclim_country(var = "bio",
+                                      res = 0.5,
+                                      path = getwd(),
+                                      country = "BRA")
+
+### Visualizar ----
+
+bioclim
+
+ggplot() +
+  tidyterra::geom_spatraster(data = bioclim) +
+  geom_sf(data = ma, color = "darkred", fill = "transparent") +
+  facet_wrap(~lyr) +
+  theme_minimal()
