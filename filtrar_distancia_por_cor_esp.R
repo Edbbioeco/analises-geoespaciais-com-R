@@ -10,9 +10,9 @@ library(sf)
 
 library(geodata)
 
-library(terra)
-
 library(tidyterra)
+
+library(terra)
 
 library(fields)
 
@@ -87,4 +87,5 @@ ggplot() +
   tidyterra::geom_spatraster(data = bioclim) +
   geom_sf(data = ma, color = "darkred", fill = "transparent") +
   facet_wrap(~lyr) +
+  scale_fill_viridis_c() +
   theme_minimal()
