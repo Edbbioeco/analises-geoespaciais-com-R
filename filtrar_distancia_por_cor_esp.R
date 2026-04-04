@@ -59,3 +59,13 @@ registros <- rgbif::occ_data(scientificName = "Boana albomarginata",
                              limit = 1e6,
                              geometry = ma |> sf::st_bbox()) %>%
   .$data
+
+### Visualizar ----
+
+registros
+
+ggplot() +
+  geom_sf(data = br, color = "black") +
+  geom_sf(data = ma, color = "darkgreen", fill = "forestgreen") +
+  geom_point(data = registros,
+             aes(x = decimalLongitude, y = decimalLatitude), color = "red", size = 2)
