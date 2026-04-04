@@ -169,3 +169,10 @@ registros_trat <- registros |>
   dplyr::slice(-valores_faltantes)
 
 registros_trat
+
+## Filtrar os valores das variáveis bioclimáticas baseado nos valores faltantes ----
+
+valores_trat <- valores |>
+  dplyr::slice(-valores_faltantes)
+
+valores_trat
