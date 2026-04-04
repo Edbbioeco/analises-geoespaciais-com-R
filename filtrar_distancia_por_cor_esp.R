@@ -107,3 +107,22 @@ ggplot() +
   geom_sf(data = br, color = "black") +
   geom_sf(data = ma, color = "darkgreen", fill = "forestgreen") +
   geom_sf(data = registros_sf, color = "red", size = 2)
+
+# Recorte das variáveis bioclimáticas ----
+
+## Recortar ----
+
+bioclim_recortado <- bioclim |>
+  terra::crop(ma) |>
+  terra::mask(ma)
+
+## Visualizar ----
+
+bioclim_recortado
+
+ggplot() +
+  tidyterra::geom_spatraster(data = bioclim_recortado) +
+  geom_sf(data = ma, color = "darkred", fill = "transparent") +
+  facet_wrap(~lyr) +
+  scale_fill_viridis_c() +
+  theme_minimal()
