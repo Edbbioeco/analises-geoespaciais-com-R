@@ -191,7 +191,7 @@ envs_var <- 2:19
 
 ## Criar função ----
 
-filtrar_dist <- function(coords, coords_var, envs, envs_var){
+filtrar_dist <- function(coords, coords_var, envs, envs_var, distancias){
 
   coords_reg <- coords |>
     dplyr::select(dplyr::all_of(coords_var)) |>
