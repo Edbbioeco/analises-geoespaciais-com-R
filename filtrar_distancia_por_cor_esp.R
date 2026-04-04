@@ -197,19 +197,21 @@ filtrar_dist <- function(coords, coords_var, envs, envs_var){
     dplyr::select(dplyr::all_of(coords_var)) |>
     as.data.frame() |>
     fields::rdist.earth(miles = FALSE) |>
-    reshape2::melt()
+    reshape2::melt() |>
+    dplyr::mutate(combinacao = paste0(Var1, "-", Var2))
 
   dist_ambs <- function(envs_var){
 
     nome_var <- envs |>
       dplyr::select(n_vars) |>
-      name()
+      names()
 
     env_dist <- valores_trat |>
       dplyr::select(n_vars) |>
       vegan::vegdist(method = "euclidean") |>
       as.matrix() |>
-      reshape2::melt()
+      reshape2::melt() |>
+      dplyr::mutate(combinacao = paste0(Var1, "-", Var2))
 
     assign(paste0("env_dist_", nome_var),
            env_dist)
