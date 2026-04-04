@@ -194,7 +194,7 @@ envs_var <- 2:19
 filtrar_dist <- function(coords, coords_var, envs, envs_var){
 
   coords_reg <- coords |>
-    dplyr::select(coords_var) |>
+    dplyr::select(dplyr::all_of(coords_var)) |>
     as.data.frame() |>
     fields::rdist.earth(miles = FALSE) |>
     reshape2::melt()
