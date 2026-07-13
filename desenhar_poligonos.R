@@ -8,6 +8,8 @@ library(leaflet)
 
 library(leaflet.extras)
 
+library(leafem)
+
 library(terra)
 
 library(mapedit)
