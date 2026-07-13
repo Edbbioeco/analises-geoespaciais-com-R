@@ -60,7 +60,7 @@ shapes <- mapa |>
 
 # Extraindo as feições ----
 
-sfs <- shapes$drawn
+sfs <- shapes$finished
 
 ggplot() +
   geom_sf(data = sfs)
