@@ -28,15 +28,18 @@ ggplot() +
 
 # Mapa de satélite ----
 
-mapa <- leaflet::leaflet() |>
+mapa <- leaflet::eaflet::leaflet() |>
   leaflet::addProviderTiles(providers$Esri.WorldImagery) |>
-  leaflet.extras::addDrawToolbar(targetGroup = "draw",
-                                 polylineOptions = TRUE,
-                                 polygonOptions = TRUE,
-                                 circleOptions = TRUE,
-                                 rectangleOptions = TRUE,
-                                 markerOptions = TRUE,
-                                 editOptions = leaflet.extras::editToolbarOptions()) |>
+  leaflet.extras::addDrawToolbar(
+    targetGroup = "Draw",
+    polylineOptions = leaflet.extras::drawPolylineOptions(),
+    polygonOptions = leaflet.extras::drawPolygonOptions(),
+    circleOptions = leaflet.extras::drawCircleOptions(),
+    rectangleOptions = leaflet.extras::drawRectangleOptions(),
+    markerOptions = leaflet.extras::drawMarkerOptions(),
+    circleMarkerOptions = leaflet.extras::drawCircleMarkerOptions(),
+    editOptions = leaflet.extras::editToolbarOptions()) |>
+  leafem::addMouseCoordinates() |>
   leaflet::addPolygons(data = slm |>
                          sf::st_as_sf() |>
                          sf::st_transform(4326))
